@@ -1,6 +1,5 @@
 import {RenderConfigurations} from './canvas-renderer';
-import {createForeignObjectSVG} from '../../core/features';
-import {asString} from '../../css/types/color';
+import {createForeignObjectSVG} from '../../core/features'; 
 import {Renderer} from '../renderer';
 import {Context} from '../../core/context';
 
@@ -14,8 +13,8 @@ export class ForeignObjectRenderer extends Renderer {
         this.canvas = options.canvas ? options.canvas : document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
         this.options = options;
-        this.canvas.width = Math.floor(options.width * options.scale);
-        this.canvas.height = Math.floor(options.height * options.scale);
+        this.canvas.width =  options.width //  Math.floor(options.width * options.scale);
+        this.canvas.height =options.height // Math.floor(options.height * options.scale);
         this.canvas.style.width = `${options.width}px`;
         this.canvas.style.height = `${options.height}px`;
 
@@ -28,8 +27,8 @@ export class ForeignObjectRenderer extends Renderer {
 
     async render(element: HTMLElement): Promise<HTMLCanvasElement> {
         const svg = createForeignObjectSVG(
-            this.options.width * this.options.scale,
-            this.options.height * this.options.scale,
+            this.options.width  ,
+            this.options.height ,
             this.options.scale,
             this.options.scale,
             element
@@ -37,12 +36,12 @@ export class ForeignObjectRenderer extends Renderer {
 
         const img = await loadSerializedSVG(svg);
 
-        if (this.options.backgroundColor) {
-            this.ctx.fillStyle = asString(this.options.backgroundColor);
-            this.ctx.fillRect(0, 0, this.options.width * this.options.scale, this.options.height * this.options.scale);
-        }
+        // if (this.options.backgroundColor) {
+        //     this.ctx.fillStyle = asString(this.options.backgroundColor);
+        //     this.ctx.fillRect(0, 0, this.options.width * this.options.scale, this.options.height * this.options.scale);
+        // }
 
-        this.ctx.drawImage(img, -this.options.x * this.options.scale, -this.options.y * this.options.scale);
+         this.ctx.drawImage(img, -this.options.x * this.options.scale,  this.options.y * this.options.scale);
 
         return this.canvas;
     }
